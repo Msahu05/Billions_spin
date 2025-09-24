@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Force desktop viewport on mobile -->
+    <meta name="viewport" content="width=1200, initial-scale=0.5, user-scalable=yes">
+    <title>Spin The Wheel - Adventure Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0022ffd8 0%, #0c4ebfe2 50%, #e2e4e8 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            /* Force minimum width for desktop layout */
+            min-width: 1200px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #FFD700, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .start-btn {
+            background: linear-gradient(45deg, #FF6B6B, #FFD700);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px 0 rgba(255, 107, 107, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px 0 rgba(255, 107, 107, 0.4);
+            scale: 1.05;
+        }
+
+        .start-btn:active {
+            transform: translateY(0);
+        }
+
+        .features {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .feature h3 {
+            margin-bottom: 10px;
+            color: #FFD700;
+        }
+
+        .feature p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Remove mobile responsive styles to maintain desktop layout */
+        /* Media queries removed to force desktop mode */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>The Billions Wheel</h1>
+        <p class="subtitle">Spin and Take the Challenge!!</p>
+        
+        <button class="start-btn" onclick="startGame()">
+            Start Spinning
+        </button>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>30 Creators</h3>
+                <p>Spin to unlock new challenges</p>
+            </div>
+            <div class="feature">
+                <h3> Challenge</h3>
+                <p>Do you have the will to complete the challenge?</p>
+            </div>
+            <div class="feature">
+                <h3>Favourites</h3>
+                <p>Spot your favourite Creators and tag them</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startGame() {
+            // Add a nice transition effect
+            document.body.style.transition = 'opacity 0.5s ease';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                window.location.href = '/game';
+            }, 500);
+        }
+    </script>
+</body>
+</html>

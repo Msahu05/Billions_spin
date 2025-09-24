@@ -1,0 +1,58 @@
+[
+  {
+    "id": 0,
+    "title": "Item One",
+    "image": "static/media/images/img1.png",
+    "video": "static/media/videos/vid1.mp4",
+    "description": "This is details for item one."
+  },
+  {
+    "id": 1,
+    "title": "Item Two",
+    "image": "static/media/images/img2.png",
+    "video": "static/media/videos/vid2.mp4",
+    "description": "Details about item two go here."
+  },
+  {
+    "id": 2,
+    "title": "Item Three",
+    "image": "static/media/images/img3.png",
+    "video": "static/media/videos/vid3.mp4",
+    "description": "Details about item three."
+  },
+  {
+    "id": 3,
+    "title": "Item Four",
+    "image": "static/media/images/img4.png",
+    "video": "static/media/videos/vid4.mp4",
+    "description": "Details about item four."
+  },
+  {
+    "id": 4,
+    "title": "Item Five",
+    "image": "static/media/images/img5.png",
+    "video": "static/media/videos/vid5.mp4",
+    "description": "Details about item five."
+  },
+  {
+    "id": 5,
+    "title": "Item Six",
+    "image": "static/media/images/img6.png",
+    "video": "static/media/videos/vid6.mp4",
+    "description": "Details about item six."
+  },
+  {
+    "id": 6,
+    "title": "Item Seven",
+    "image": "static/media/images/img7.png",
+    "video": "static/media/videos/vid7.mp4",
+    "description": "Details about item seven."
+  },
+  {
+    "id": 7,
+    "title": "Item Eight",
+    "image": "static/media/images/img8.png",
+    "video": "static/media/videos/vid8.mp4",
+    "description": "static/Details about item eight."
+  }
+]
