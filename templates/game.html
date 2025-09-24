@@ -2,288 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Force desktop viewport on mobile -->
     <meta name="viewport" content="width=1200, initial-scale=0.4, user-scalable=yes">
     <title>Spin The Wheel - Game</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1550bc 0%, #1d54b4e2 50%, #9eaac2 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            overflow-x: hidden;
-            /* Force minimum width for desktop layout */
-            min-width: 1100px;
-        }
-
-        .header {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
-        }
-
-        .back-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .game-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            max-width: 90%;
-        }
-
-        .wheel-container {
-            position: relative;
-            width: 600px;
-            height: 600px;
-        }
-
-        .wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-            border: 8px solid white;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-            transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-        }
-
-        .wheel-segment {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            top: 50%;
-            left: 50%;
-            transform-origin: center center;
-            overflow: visible;
-        }
-
-        .wheel-segment img {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 2px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-            display: block;
-            transform-origin: center center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-        }
-
-        .wheel-pointer {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 30px solid #FFD700;
-            z-index: 10;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-        }
-
-        .center-circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(45deg, #FFD700, #FF6B6B);
-            border-radius: 50%;
-            z-index: 20;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            border: 4px solid white;
-        }
-
-        .spin-btn {
-            background: linear-gradient(45deg, #FF6B6B, #FFD700);
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px 0 rgba(255, 107, 107, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .spin-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px 0 rgba(255, 107, 107, 0.4);
-        }
-
-        .spin-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal {
-            background: white;
-            border-radius: 20px;
-            padding: 0;
-            max-width: 800px;
-            width: 90%;
-            max-height: 90vh;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            color: #333;
-        }
-
-        .modal-content {
-            display: flex;
-            min-height: 450px;
-        }
-
-        .character-section {
-            flex: 1;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 20px;
-        }
-
-        .character-image {
-            max-width: 100%;
-            max-height: 300px;
-            object-fit: contain;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .info-section {
-            flex: 1;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: white;
-        }
-
-        .info-section h2 {
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-            color: #FF6B6B;
-            text-align: center;
-        }
-
-        .x-username {
-            font-size: 1.1rem;
-            color: #1DA1F2;
-            text-align: center;
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
-
-        .challenges-section {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 10px;
-        }
-
-        .challenges-title {
-            font-size: 1.3rem;
-            color: #333;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .challenge-item {
-            background: white;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            border-left: 4px solid #FF6B6B;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .challenge-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .challenge-text {
-            font-size: 1rem;
-            color: #555;
-            line-height: 1.4;
-        }
-
-        .close-hint {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            color: #999;
-            font-size: 14px;
-        }
-
-        /* Remove all mobile responsive styles to maintain desktop layout */
-        /* @media queries removed to force desktop mode on all devices */
-
-        .spinning {
-            animation: spin 0.1s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: Arial,sans-serif; background: linear-gradient(135deg,#1550bc 0%,#1d54b4e2 50%,#9eaac2 100%); min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; color:white; overflow-x:hidden; min-width:900px; }
+        .header { position:absolute; top:20px; left:20px; z-index:100; }
+        .back-btn { background:rgba(255,255,255,0.2); color:white; border:none; padding:10px 20px; border-radius:25px; cursor:pointer; font-size:16px; backdrop-filter:blur(10px); transition:all 0.3s ease; }
+        .back-btn:hover { background:rgba(255,255,255,0.3); transform:translateY(-2px); }
+        .game-container { display:flex; flex-direction:column; align-items:center; gap:30px; max-width:90%; }
+        .wheel-container { position:relative; width:600px; height:600px; }
+        .wheel { width:100%; height:100%; border-radius:50%; position:relative; overflow:hidden; border:8px solid white; box-shadow:0 0 30px rgba(0,0,0,0.3); transition:transform 4s cubic-bezier(0.25,0.1,0.25,1); background:radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); }
+        .wheel-segment { position:absolute; width:80px; height:80px; top:50%; left:50%; transform-origin:center center; overflow:visible; }
+        .wheel-segment img { width:70px; height:70px; object-fit:cover; border-radius:8px; border:2px solid rgba(255,255,255,0.9); box-shadow:0 3px 8px rgba(0,0,0,0.4); display:block; transform-origin:center center; position:absolute; top:50%; left:50%; }
+        .wheel-pointer { position:absolute; top:-10px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent; border-top:30px solid #FFD700; z-index:10; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+        .center-circle { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:80px; height:80px; background:linear-gradient(45deg,#FFD700,#FF6B6B); border-radius:50%; z-index:20; display:flex; align-items:center; justify-content:center; font-size:32px; box-shadow:0 4px 15px rgba(0,0,0,0.3); border:4px solid white; }
+        .spin-btn { background:linear-gradient(45deg,#FF6B6B,#FFD700); color:white; font-size:1.2rem; font-weight:bold; padding:15px 30px; border:none; border-radius:50px; cursor:pointer; transition:all 0.3s ease; box-shadow:0 4px 15px 0 rgba(255,107,107,0.3); text-transform:uppercase; letter-spacing:1px; }
+        .spin-btn:hover:not(:disabled) { transform:translateY(-3px); box-shadow:0 8px 25px 0 rgba(255,107,107,0.4); }
+        .spin-btn:disabled { opacity:0.5; cursor:not-allowed; }
+        .modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center; z-index:1000; backdrop-filter:blur(5px); }
+        .modal { background:white; border-radius:20px; padding:0; max-width:800px; width:90%; max-height:90vh; overflow:hidden; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.3); color:#333; }
+        .modal-content { display:flex; min-height:450px; }
+        .character-section { flex:1; background:#f8f9fa; display:flex; align-items:center; justify-content:center; position:relative; padding:20px; }
+        .character-image { max-width:100%; max-height:300px; object-fit:contain; border-radius:15px; box-shadow:0 8px 20px rgba(0,0,0,0.2); }
+        .info-section { flex:1; padding:30px; display:flex; flex-direction:column; justify-content:center; background:white; }
+        .info-section h2 { font-size:2.2rem; margin-bottom:15px; color:#FF6B6B; text-align:center; }
+        .x-username { font-size:1.1rem; color:#1DA1F2; text-align:center; margin-bottom:25px; font-weight:600; }
+        .challenges-section { background:#f8f9fa; border-radius:15px; padding:20px; margin-top:10px; }
+        .challenges-title { font-size:1.3rem; color:#333; margin-bottom:15px; text-align:center; font-weight:bold; }
+        .challenge-item { background:white; padding:15px; margin-bottom:10px; border-radius:10px; border-left:4px solid #FF6B6B; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+        .challenge-item:last-child { margin-bottom:0; }
+        .challenge-text { font-size:1rem; color:#555; line-height:1.4; }
+        .close-hint { position:absolute; top:15px; right:20px; color:#999; font-size:14px; }
+        .spinning { animation: spin 0.1s linear infinite; }
+        @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -294,22 +46,14 @@
     <div class="game-container">
         <div class="wheel-container">
             <div class="wheel-pointer"></div>
-            <div class="wheel" id="wheel">
-                <!-- Wheel segments will be generated by JavaScript -->
-            </div>
+            <div class="wheel" id="wheel"></div>
             <div class="center-circle">
                 <img src="/static/images/logo.png" alt="Logo" style="width:100%; height:100%; border-radius:50%;">
             </div>
-
         </div>
-        
-        <button class="spin-btn" id="spinBtn" onclick="spinWheel()">
-            Click to Spin The Wheel
-        </button>
+        <button class="spin-btn" id="spinBtn">Click to Spin The Wheel</button>
     </div>
-    <audio id="spinSound" src="/static/sounds/spin.mp3" preload="auto"></audio>
 
-    <!-- Modal for displaying results -->
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="close-hint">Click outside to close</div>
@@ -318,16 +62,13 @@
                     <img class="character-image" id="characterImage" src="" alt="Character">
                 </div>
                 <div class="info-section">
-                    <h2 id="modalTitle">Loading... </h2>
-                    <div class="x-username" id="xUsername">@username </div> <p class="x-username">Says...</p>
+                    <h2 id="modalTitle">Loading...</h2>
+                    <div class="x-username" id="xUsername">@username</div>
+                    <p class="x-username">Says...</p>
                     <div class="challenges-section">
                         <div class="challenges-title">If you are a Billions believer...</div>
-                        <div class="challenge-item">
-                            <div class="challenge-text" id="challenge1">Loading challenge...</div>
-                        </div>
-                        <div class="challenge-item">
-                            <div class="challenge-text" id="challenge2">Loading challenge...</div>
-                        </div>
+                        <div class="challenge-item"><div class="challenge-text" id="challenge1">Loading challenge...</div></div>
+                        <div class="challenge-item"><div class="challenge-text" id="challenge2">Loading challenge...</div></div>
                     </div>
                     - Complete any ONE challenge and share your creations with #TheBillionsWheel on X
                 </div>
@@ -344,205 +85,134 @@
             try {
                 const response = await fetch('/api/wheel-data');
                 wheelData = await response.json();
-                
-                preloadImages();   // ✅ Preload here
+                preloadImages();
                 createWheel();
-            } catch (error) {
-                console.error('Error loading wheel data:', error);
+            } catch (err) {
+                console.error('Error loading wheel data:', err);
             }
         }
 
-
-        // Preload images (add this after you fetch wheelData)
         function preloadImages() {
-            const images = [];
-
-            // Preload wheel segment images
             wheelData.forEach(item => {
-                const img = new Image();
-                img.src = `/static/images/${item.image}`;
-                images.push(img);
-
-                const charImg = new Image();
-                charImg.src = `/static/characters/${item.char_image}`;
-                images.push(charImg);
+                new Image().src = `/static/images/${item.image}`;
+                new Image().src = `/static/characters/${item.char_image}`;
             });
-
-            // Preload center logo
-            const logo = new Image();
-            logo.src = "/static/images/logo.png";
-            images.push(logo);
+            new Image().src = "/static/images/logo.png";
         }
-
 
         function createWheel() {
             const wheel = document.getElementById('wheel');
             const segmentAngle = 360 / wheelData.length;
-            const radius = 260; // Reduced radius to keep images inside wheel
-
-            wheelData.forEach((item, index) => {
+            const radius = 260;
+            wheelData.forEach((item,index) => {
                 const segment = document.createElement('div');
                 segment.className = 'wheel-segment';
-                
-                // Calculate position around the circle
-                const angleInRadians = (index * segmentAngle - 90) * Math.PI / 180; // -90 to start from top
-                const x = Math.cos(angleInRadians) * radius;
-                const y = Math.sin(angleInRadians) * radius;
-                
-                // Position the segment container
-                segment.style.transform = `translate(${x - 40}px, ${y - 40}px)`;
-                
+                const angleRad = (index * segmentAngle - 90) * Math.PI/180;
+                const x = Math.cos(angleRad) * radius;
+                const y = Math.sin(angleRad) * radius;
+                segment.style.transform = `translate(${x-40}px, ${y-40}px)`;
                 const img = document.createElement('img');
                 img.src = `/static/images/${item.image}`;
                 img.alt = item.title;
-                
-                // Rotate image to face center and position it
-                const rotationAngle = index * segmentAngle;
-                img.style.transform = `translate(-50%, -50%) rotate(${rotationAngle}deg)`;
-                
+                img.style.transform = `translate(-50%,-50%) rotate(${index*segmentAngle}deg)`;
                 segment.appendChild(img);
                 wheel.appendChild(segment);
             });
-            
-            // Add divider lines between segments
-            for (let i = 0; i < wheelData.length; i++) {
-                const line = document.createElement('div');
-                line.style.position = 'absolute';
-                line.style.top = '50%';
-                line.style.left = '50%';
-                line.style.width = '280px';
-                line.style.height = '1px';
-                line.style.background = 'rgba(255, 255, 255, 0.3)';
-                line.style.transformOrigin = '0 0';
-                line.style.transform = `rotate(${i * segmentAngle}deg)`;
-                line.style.zIndex = '5';
+
+            for(let i=0;i<wheelData.length;i++){
+                const line=document.createElement('div');
+                line.style.position='absolute';
+                line.style.top='50%';
+                line.style.left='50%';
+                line.style.width='280px';
+                line.style.height='1px';
+                line.style.background='rgba(255,255,255,0.3)';
+                line.style.transformOrigin='0 0';
+                line.style.transform=`rotate(${i*segmentAngle}deg)`;
+                line.style.zIndex='5';
                 wheel.appendChild(line);
             }
         }
 
-        // helper: return selected index for a given absolute rotation (deg)
-        function getSelectedIndexFromRotation(rotation) {
+        function getSelectedIndexFromRotation(rotation){
             const N = wheelData.length;
-            const segmentAngle = 360 / N;
-
-            // Normalize rotation to 0..360
-            const rot = ((rotation % 360) + 360) % 360;
-
-            // Angle that points to the top (pointer) in wheel coordinates
-            const pointerAngle = (360 - rot) % 360;
-
-            // Round to nearest segment center (robust vs. boundaries)
-            const index = Math.round(pointerAngle / segmentAngle) % N;
+            const segmentAngle = 360/N;
+            const rot = ((rotation%360)+360)%360;
+            const pointerAngle = (360-rot)%360;
+            const index = Math.round(pointerAngle/segmentAngle)%N;
             return index;
         }
 
-        window.addEventListener("DOMContentLoaded", () => {
-            const spinSound = document.getElementById("spinSound");
+        function spinWheel(){
+            if(isSpinning) return;
+            isSpinning=true;
+            const spinBtn=document.getElementById('spinBtn');
+            spinBtn.disabled=true;
 
-            // unlock audio on first user interaction
-            document.body.addEventListener("click", () => {
-                spinSound.play().then(() => {
-                    spinSound.pause();
-                    spinSound.currentTime = 0;
-                }).catch(err => {
-                    console.log("Audio preload blocked:", err);
-                });
-            }, { once: true });
-        });
+            // ✅ Create fresh audio object for guaranteed first-spin play
+            const spinSound = new Audio('/static/sounds/spin.mp3');
+            spinSound.loop=true;
+            spinSound.play().catch(err=>console.log("Audio blocked:",err));
 
+            const minSpins=3;
+            const maxSpins=6;
+            const randomSpins=Math.random()*(maxSpins-minSpins)+minSpins;
+            const randomDegree=Math.random()*360;
+            const totalRotation=(randomSpins*360)+randomDegree;
+            currentRotation+=totalRotation;
 
-        function spinWheel() {
-            if (isSpinning) return;
+            const wheel=document.getElementById('wheel');
+            wheel.style.transform=`rotate(${currentRotation}deg)`;
 
-            isSpinning = true;
-            const spinBtn = document.getElementById('spinBtn');
-            spinBtn.disabled = true;
-
-            const spinSound = document.getElementById('spinSound');
-
-            // Reset and play sound
-            spinSound.currentTime = 0;
-            spinSound.loop = true;   // keep looping while spinning
-            spinSound.play();
-
-            const minSpins = 3;
-            const maxSpins = 6;
-            const randomSpins = Math.random() * (maxSpins - minSpins) + minSpins;
-            const randomDegree = Math.random() * 360;
-            const totalRotation = (randomSpins * 360) + randomDegree;
-
-            currentRotation += totalRotation;
-
-            const wheel = document.getElementById('wheel');
-            wheel.style.transform = `rotate(${currentRotation}deg)`;
-
-            function onTransitionEnd() {
-                wheel.removeEventListener('transitionend', onTransitionEnd);
-
-                // Stop sound
+            function onTransitionEnd(){
+                wheel.removeEventListener('transitionend',onTransitionEnd);
                 spinSound.pause();
-                spinSound.currentTime = 0;
-
-                const selectedIndex = getSelectedIndexFromRotation(currentRotation);
+                spinSound.currentTime=0;
+                const selectedIndex=getSelectedIndexFromRotation(currentRotation);
                 showResult(wheelData[selectedIndex]);
-
-                isSpinning = false;
-                spinBtn.disabled = false;
+                isSpinning=false;
+                spinBtn.disabled=false;
             }
 
-            wheel.addEventListener('transitionend', onTransitionEnd);
+            wheel.addEventListener('transitionend',onTransitionEnd);
         }
 
-
-
-        async function showResult(item) {
-            try {
-                // Fetch random challenges for this character
-                const response = await fetch(`/api/item/${item.id}`);
-                const characterData = await response.json();
-                
-                document.getElementById('modalTitle').textContent = characterData.title;
-                document.getElementById('xUsername').textContent = characterData.x_username;
-                
-                // Set character image
-                const characterImg = document.getElementById('characterImage');
-                characterImg.src = `/static/characters/${characterData.char_image}`;
-                characterImg.alt = characterData.title;
-                
-                // Set random challenges
-                if (characterData.challenges && characterData.challenges.length >= 2) {
-                    document.getElementById('challenge1').textContent = characterData.challenges[0];
-                    document.getElementById('challenge2').textContent = characterData.challenges[1];
+        async function showResult(item){
+            try{
+                const response=await fetch(`/api/item/${item.id}`);
+                const characterData=await response.json();
+                document.getElementById('modalTitle').textContent=characterData.title;
+                document.getElementById('xUsername').textContent=characterData.x_username;
+                document.getElementById('characterImage').src=`/static/characters/${characterData.char_image}`;
+                if(characterData.challenges && characterData.challenges.length>=2){
+                    document.getElementById('challenge1').textContent=characterData.challenges[0];
+                    document.getElementById('challenge2').textContent=characterData.challenges[1];
                 } else {
-                    document.getElementById('challenge1').textContent = "Draw this character in your own style";
-                    document.getElementById('challenge2').textContent = "Create a backstory for this character";
+                    document.getElementById('challenge1').textContent="Draw this character in your own style";
+                    document.getElementById('challenge2').textContent="Create a backstory for this character";
                 }
-                
-                document.getElementById('modalOverlay').style.display = 'flex';
-            } catch (error) {
-                console.error('Error fetching character data:', error);
-                // Fallback display
-                document.getElementById('modalTitle').textContent = item.title;
-                document.getElementById('xUsername').textContent = item.x_username || "@character";
-                document.getElementById('characterImage').src = `/static/characters/${item.char_image}`;
-                document.getElementById('challenge1').textContent = "Draw this character in your own style";
-                document.getElementById('challenge2').textContent = "Create a backstory for this character";
-                document.getElementById('modalOverlay').style.display = 'flex';
+                document.getElementById('modalOverlay').style.display='flex';
+            } catch(err){
+                console.error(err);
+                document.getElementById('modalTitle').textContent=item.title;
+                document.getElementById('xUsername').textContent=item.x_username||"@character";
+                document.getElementById('characterImage').src=`/static/characters/${item.char_image}`;
+                document.getElementById('challenge1').textContent="Draw this character in your own style";
+                document.getElementById('challenge2').textContent="Create a backstory for this character";
+                document.getElementById('modalOverlay').style.display='flex';
             }
         }
 
-        function closeModal(event) {
-            if (event.target === document.getElementById('modalOverlay')) {
-                document.getElementById('modalOverlay').style.display = 'none';
+        function closeModal(event){
+            if(event.target===document.getElementById('modalOverlay')){
+                document.getElementById('modalOverlay').style.display='none';
             }
         }
 
-        function goHome() {
-            window.location.href = '/';
-        }
+        function goHome(){ window.location.href='/'; }
 
-        // Load wheel data when page loads
-        window.addEventListener('DOMContentLoaded', loadWheelData);
+        document.getElementById('spinBtn').addEventListener('click',spinWheel);
+        window.addEventListener('DOMContentLoaded',loadWheelData);
     </script>
 </body>
 </html>
